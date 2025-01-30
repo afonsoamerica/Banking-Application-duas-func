@@ -1,10 +1,12 @@
 crie dois clientes e realize essas funçoes:
 
 1. Realizar transferência
-2. Exibir histórico de transações
-   .
-adicionada novas funcionalidades:
-adicionar renda a conta
+2. Exibir histórico de transações.
+   
+Adicionada novas funcionalidades:
+1. adicionar renda a conta
+2. abrir outra conta bancaria e gerenciar diferentes tipos de contas bancárias, (conta corrente e conta poupança)
+
 
 
 # Banking-Application-duas-func
