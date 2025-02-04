@@ -327,105 +327,84 @@ def sacar_poupanca():
 
 def transferir_poupanca_para_corrente():
     """
-   Transfere saldo da conta poupança para a conta corrente do mesmo CPF.
+    Transfere um valor de uma conta poupança para a conta corrente associada ao mesmo CPF.
     """
-    print("\n=== Transferir da Poupança para a Corrente ===")
-    cpf = input("Digite o CPF do cliente (apenas números): ")
-
-     #Verifica se a conta corrente existe
-    cliente = next((cliente for cliente in clientes if cliente["cpf"] == cpf), None)
-    if not cliente:
-        print("Conta corrente não encontrada para este CPF.")
-        return
-
-    #Verifica se a conta poupança existe
+    global poupancas  # Manipula a variável global de poupanças.
+    
+    cpf = input("Digite o CPF do titular (somente números): ")
+    cpf_formatado = formatar_cpf(cpf)  # Formata o CPF para garantir o padrão correto.
+    
+    # Verifica se o CPF tem uma conta poupança associada.
     if cpf not in poupancas:
-      print("Conta poupança não encontrada para este CPF.")
-    return
-
-    # Solicita o valor a ser transferido
-    try:
-        valor = float(input("Digite o valor a ser transferido: R$ "))
-        if valor <= 0:
-            print("Valor inválido. Insira um valor positivo.")
-            return
-    except ValueError:
-        print("Entrada inválida. Insira um número válido.")
+        print("Não há conta poupança associada a este CPF.")
         return
 
-    # Verifica saldo suficiente na poupança
+    # Verifica se o CPF tem uma conta corrente associada.
+    cliente_corrente = next((cliente for cliente in clientes if cliente["cpf"] == cpf_formatado), None)
+    if not cliente_corrente:
+        print("Não há conta corrente associada a este CPF.")
+        return
+
+    # Solicita o valor da transferência.
+    valor = float(input("Digite o valor a ser transferido para a conta corrente: R$ "))
+    if valor <= 0:
+        print("O valor deve ser maior que zero.")
+        return
+
+    # Verifica se há saldo suficiente na conta poupança.
     if poupancas[cpf]["saldo"] < valor:
-        print("Saldo insuficiente na poupança para realizar a transferência.")
+        print("Saldo insuficiente na conta poupança.")
         return
 
-    # Realiza a transferência
+    # Realiza a transferência.
     poupancas[cpf]["saldo"] -= valor
-    cliente["saldo"] += valor
+    cliente_corrente["saldo"] += valor
 
-    # Atualiza o histórico de transações
-    historico_transacoes[cpf].append(f"Transferência de R${valor:.2f} da poupança para a conta corrente realizada com sucesso.")
-
-    print(f"Transferência de R${valor:.2f} realizada com sucesso!")
-    print(f"Novo saldo na poupança: R$ {poupancas[cpf]['saldo']:.2f}")
-    print(f"Novo saldo na conta corrente: R$ {cliente_corrente['saldo']:.2f}\n")
+    print(f"Transferência de R${valor:.2f} da poupança para a conta corrente realizada com sucesso!")
+    print(f"Novo saldo da poupança: R${poupancas[cpf]['saldo']:.2f}")
+    print(f"Novo saldo da conta corrente: R${cliente_corrente['saldo']:.2f}")
 
 def transferir_corrente_para_poupanca():
     """
-    Transfere saldo da conta corrente para a conta poupança do mesmo CPF.
+    Transfere um valor de uma conta corrente para a conta poupança associada ao mesmo CPF.
     """
+    global poupancas  # Manipula a variável global de poupanças.
 
+    cpf = input("Digite o CPF do titular (somente números): ")
+    cpf_formatado = formatar_cpf(cpf)  # Formata o CPF para garantir o padrão correto.
 
-    ####while True:
-    ###    cpf = input("Digite o CPF do cliente (apenas números): ")
-    ###    if len(cpf) == 11 and cpf.isdigit():
-    ###        cpf = formatar_cpf(cpf)
-    ###        break
-   ###     else:
-   ###         print("CPF inválido. Certifique-se de digitar 11 números.")
-
-
-
-
-            
-    print("\n=== Transferir da Corrente para a Poupança ===")
-    cpf = input("Digite o CPF do cliente (apenas números): ")
-
-    # Verifica se a conta corrente existe
-    cliente = next((cliente for cliente in clientes if cliente["cpf"] == cpf), None)
-    if not cliente:
-        print("Conta corrente não encontrada para este CPF.")
+    # Verifica se o CPF tem uma conta corrente associada.
+    cliente_corrente = next((cliente for cliente in clientes if cliente["cpf"] == cpf_formatado), None)
+    if not cliente_corrente:
+        print("Não há conta corrente associada a este CPF.")
         return
 
-    # Verifica se a conta poupança existe
+    # Verifica se o CPF tem uma conta poupança associada.
     if cpf not in poupancas:
-        print("Conta poupança não encontrada para este CPF.")
+        print("Não há conta poupança associada a este CPF.")
         return
 
-    # Solicita o valor a ser transferido
-    try:
-        valor = float(input("Digite o valor a ser transferido: R$ "))
-        if valor <= 0:
-            print("Valor inválido. Insira um valor positivo.")
-            return
-    except ValueError:
-        print("Entrada inválida. Insira um número válido.")
+    # Solicita o valor da transferência.
+    valor = float(input("Digite o valor a ser transferido para a conta poupança: R$ "))
+    if valor <= 0:
+        print("O valor deve ser maior que zero.")
         return
 
-    # Verifica saldo suficiente na conta corrente
-    if cliente["saldo"] < valor:
-        print("Saldo insuficiente na conta corrente para realizar a transferência.")
+    # Verifica se há saldo suficiente na conta corrente.
+    if cliente_corrente["saldo"] < valor:
+        print("Saldo insuficiente na conta corrente.")
         return
 
-    # Realiza a transferência
-    cliente["saldo"] -= valor
+    # Realiza a transferência.
+    cliente_corrente["saldo"] -= valor
     poupancas[cpf]["saldo"] += valor
 
-    # Atualiza o histórico de transações
-    historico_transacoes[cpf].append(f"Transferência de R${valor:.2f} da conta corrente para a poupança realizada com sucesso.")
+    print(f"Transferência de R${valor:.2f} da conta corrente para a poupança realizada com sucesso!")
+    print(f"Novo saldo da conta corrente: R${cliente_corrente['saldo']:.2f}")
+    print(f"Novo saldo da poupança: R${poupancas[cpf]['saldo']:.2f}")
 
-    print(f"Transferência de R${valor:.2f} realizada com sucesso!")
-    print(f"Novo saldo na conta corrente: R$ {cliente_corrente['saldo']:.2f}")
-    print(f"Novo saldo na poupança: R$ {poupancas[cpf]['saldo']:.2f}\n")
+
+
 
 
 
