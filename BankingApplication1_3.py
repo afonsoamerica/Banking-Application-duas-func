@@ -262,11 +262,12 @@ def menu_interativo():
     Apresenta um menu interativo para gerenciar clientes e transações.
     """
     while True:
-        print("\nMenu:")
-        print("1. Criar conta corrente")
-        print("2. Ver saldo da conta corrente")
-        print("3. Adicionar dinheiro à conta corrente")
-        print("4. Retirar dinheiro da conta corrente")
+        print("Menu:")
+        print("1. Adicionar cliente")
+        print("2. Realizar transferência")
+        print("3. Exibir histórico de transações")
+        print("4. Adicionar dinheiro à conta")
+
         print("5. Criar conta poupança")
         print("6. Adicionar dinheiro à poupança")
         print("7. Retirar dinheiro da poupança")
@@ -275,17 +276,13 @@ def menu_interativo():
         opcao = int(input("Escolha uma opção: "))
 
         if opcao == 1:
-            # Função para criar conta corrente
-            pass
+            adicionar_cliente()
         elif opcao == 2:
-            # Ver saldo da conta corrente
-            pass
+            transferencia_fundos()
         elif opcao == 3:
-            # Adicionar dinheiro à conta corrente
-            pass
+            exibir_historico()
         elif opcao == 4:
-            # Retirar dinheiro da conta corrente
-            pass
+            adicionar_dinheiro()
         elif opcao == 5:
             cpf = input("Digite o CPF do cliente: ")
             criar_conta_poupanca(cpf)
@@ -307,4 +304,3 @@ def menu_interativo():
 # Executa o programa interativo
 if __name__ == "__main__":
     menu_interativo()
-  
