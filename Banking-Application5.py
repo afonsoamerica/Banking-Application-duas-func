@@ -13,102 +13,12 @@ historico_transacoes = {}
 # Dicionário para armazenar as contas poupança
 poupancas = {}  # Inicializa um dicionário para armazenar contas poupança.
 
-def criar_conta_poupanca():
-    """
-    Função para criar uma conta poupança.
-    Verifica se o CPF já existe no dicionário de contas poupança.
-    Se não existir, adiciona a conta ao dicionário.
-    """
-    global poupancas  # Garante que estamos manipulando a variável global.
-    cpf = input("Digite o CPF (somente números): ")
-    
-    # Verifica se o CPF já possui uma conta poupança.
-    if cpf in poupancas:
-        print("Uma conta poupança já existe para este CPF.")
-        return
-
-    # Solicita os dados para criar a conta poupança.
-    nome = input("Digite o nome do titular: ")
-    saldo_inicial = float(input("Adicione um saldo inicial: "))
-
-    # Adiciona a conta poupança ao dicionário.
-    poupancas[cpf] = {
-        "nome": nome,
-        "saldo": saldo_inicial
-    }
-    print("Conta poupança criada com sucesso!")
-
-def exibir_conta_poupanca():
-    """
-    Função para exibir os detalhes de uma conta poupança.
-    O usuário insere o CPF, e os dados da conta são exibidos, se existirem.
-    """
-    global poupancas
-    cpf = input("Digite o CPF (somente números): ")
-
-    # Verifica se o CPF está no dicionário de contas poupança.
-    if cpf in poupancas:
-        conta = poupancas[cpf]
-        print("=== Dados da Conta Poupança ===")
-        print(f"Titular: {conta['nome']}")
-        print(f"Saldo: R$ {conta['saldo']:.2f}")
-    else:
-        print("Conta poupança não encontrada para este CPF.")
-
-def depositar_poupanca():
-    """
-    Função para realizar depósito em uma conta poupança.
-    O usuário insere o CPF e o valor do depósito.
-    """
-    global poupancas
-    cpf = input("Digite o CPF (somente números): ")
-
-    # Verifica se o CPF está no dicionário de contas poupança.
-    if cpf in poupancas:
-        valor = float(input("Digite o valor do depósito: "))
-        if valor <= 0:
-            print("Valor inválido. Insira um valor positivo.")
-        return
-
-    # Atualiza o saldo do cliente
-    cliente["saldo"] += valor
-
-    # Atualiza o histórico de transações
-    historico_transacoes[cpf].append(f"Depósito de R${valor:.2f} realizado com sucesso.")
-
-    print(f"Depósito de R${valor:.2f} registrado com sucesso!")
-    print("Boleto enviado ao e-mail para depósito bancário.\n")
-
-def sacar_poupanca():
-    """
-    Função para realizar saque em uma conta poupança.
-    O usuário insere o CPF e o valor do saque.
-    """
-    global poupancas
-    cpf = input("Digite o CPF (somente números): ")
-
-    # Verifica se o CPF está no dicionário de contas poupança.
-    if cpf in poupancas:
-        valor = float(input("Digite o valor do saque: "))
-        if 0 < valor <= poupancas[cpf]['saldo']:
-            poupancas[cpf]['saldo'] -= valor
-            print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
-        else:
-            print("Saldo insuficiente ou valor inválido.")
-    else:
-        print("Conta poupança não encontrada para este CPF.")
 
 
 
-
-
-
-
-
-
-
-
-
+#######################################################################################
+##########################################################################
+#######################################################
 
 
 
@@ -283,6 +193,268 @@ def transferencia_fundos():
     print(f"Novo saldo de {cliente_destino['nome']}: R${cliente_destino['saldo']:.2f}\n")
 
 
+#######################################
+######################### P O U P A N C A##########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def criar_conta_poupanca():
+    """
+    Função para criar uma conta poupança.
+    Verifica se o CPF já existe no dicionário de contas poupança.
+    Se não existir, adiciona a conta ao dicionário.
+    """
+    global poupancas  # Garante que estamos manipulando a variável global.
+    cpf = input("Digite o CPF (somente números): ")
+    
+    # Verifica se o CPF já possui uma conta poupança.
+    if cpf in poupancas:
+        print("Uma conta poupança já existe para este CPF.")
+        return
+
+    # Solicita os dados para criar a conta poupança.
+    nome = input("Digite o nome do titular: ")
+    saldo_inicial = float(input("Adicione um saldo inicial: "))
+
+    # Adiciona a conta poupança ao dicionário.
+    poupancas[cpf] = {
+        "nome": nome,
+        "saldo": saldo_inicial
+    }
+    print("Conta poupança criada com sucesso!")
+
+def exibir_conta_poupanca():
+    """
+    Função para exibir os detalhes de uma conta poupança.
+    O usuário insere o CPF, e os dados da conta são exibidos, se existirem.
+    """
+    global poupancas
+    cpf = input("Digite o CPF (somente números): ")
+
+    # Verifica se o CPF está no dicionário de contas poupança.
+    if cpf in poupancas:
+        conta = poupancas[cpf]
+        print("=== Dados da Conta Poupança ===")
+        print(f"Titular: {conta['nome']}")
+        print(f"Saldo: R$ {conta['saldo']:.2f}")
+    else:
+        print("Conta poupança não encontrada para este CPF.")
+
+def depositar_poupanca():
+    """
+    Função para realizar depósito em uma conta poupança.
+    O usuário insere o CPF e o valor do depósito.
+    """
+    global poupancas
+    cpf = input("Digite o CPF (somente números): ")
+
+    # Verifica se o CPF está no dicionário de contas poupança.
+    if cpf in poupancas:
+        valor = float(input("Digite o valor do depósito: "))
+        if valor <= 0:
+            print("Valor inválido. Insira um valor positivo.")
+        return
+
+
+# Verifica se o cliente existe
+    cliente = next((cliente for cliente in clientes if cliente["cpf"] == cpf), None)
+    if not cliente:
+        print("Cliente não encontrado. Verifique o CPF.")
+        return
+
+
+
+    # Atualiza o saldo do cliente
+    cliente["saldo"] += valor
+
+    # Atualiza o histórico de transações
+    historico_transacoes[cpf].append(f"Depósito de R${valor:.2f} realizado com sucesso.")
+
+    print(f"Depósito de R${valor:.2f} registrado com sucesso!")
+    print("Boleto enviado ao e-mail para depósito bancário.\n")
+
+def sacar_poupanca():
+    """
+    Função para realizar saque em uma conta poupança.
+    O usuário insere o CPF e o valor do saque.
+    """
+    global poupancas
+    cpf = input("Digite o CPF (somente números): ")
+
+    # Verifica se o CPF está no dicionário de contas poupança.
+    if cpf in poupancas:
+        valor = float(input("Digite o valor do saque: "))
+        if 0 < valor <= poupancas[cpf]['saldo']:
+            poupancas[cpf]['saldo'] -= valor
+            print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
+        else:
+            print("Saldo insuficiente ou valor inválido.")
+    else:
+        print("Conta poupança não encontrada para este CPF.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def transferir_poupanca_para_corrente():
+    """
+   Transfere saldo da conta poupança para a conta corrente do mesmo CPF.
+    """
+    print("\n=== Transferir da Poupança para a Corrente ===")
+    cpf = input("Digite o CPF do cliente (apenas números): ")
+
+     #Verifica se a conta corrente existe
+    cliente = next((cliente for cliente in clientes if cliente["cpf"] == cpf), None)
+    if not cliente:
+        print("Conta corrente não encontrada para este CPF.")
+        return
+
+    #Verifica se a conta poupança existe
+    if cpf not in poupancas:
+      print("Conta poupança não encontrada para este CPF.")
+    return
+
+    # Solicita o valor a ser transferido
+    try:
+        valor = float(input("Digite o valor a ser transferido: R$ "))
+        if valor <= 0:
+            print("Valor inválido. Insira um valor positivo.")
+            return
+    except ValueError:
+        print("Entrada inválida. Insira um número válido.")
+        return
+
+    # Verifica saldo suficiente na poupança
+    if poupancas[cpf]["saldo"] < valor:
+        print("Saldo insuficiente na poupança para realizar a transferência.")
+        return
+
+    # Realiza a transferência
+    poupancas[cpf]["saldo"] -= valor
+    cliente["saldo"] += valor
+
+    # Atualiza o histórico de transações
+    historico_transacoes[cpf].append(f"Transferência de R${valor:.2f} da poupança para a conta corrente realizada com sucesso.")
+
+    print(f"Transferência de R${valor:.2f} realizada com sucesso!")
+    print(f"Novo saldo na poupança: R$ {poupancas[cpf]['saldo']:.2f}")
+    print(f"Novo saldo na conta corrente: R$ {cliente_corrente['saldo']:.2f}\n")
+
+def transferir_corrente_para_poupanca():
+    """
+    Transfere saldo da conta corrente para a conta poupança do mesmo CPF.
+    """
+
+
+    ####while True:
+    ###    cpf = input("Digite o CPF do cliente (apenas números): ")
+    ###    if len(cpf) == 11 and cpf.isdigit():
+    ###        cpf = formatar_cpf(cpf)
+    ###        break
+   ###     else:
+   ###         print("CPF inválido. Certifique-se de digitar 11 números.")
+
+
+
+
+            
+    print("\n=== Transferir da Corrente para a Poupança ===")
+    cpf = input("Digite o CPF do cliente (apenas números): ")
+
+    # Verifica se a conta corrente existe
+    cliente = next((cliente for cliente in clientes if cliente["cpf"] == cpf), None)
+    if not cliente:
+        print("Conta corrente não encontrada para este CPF.")
+        return
+
+    # Verifica se a conta poupança existe
+    if cpf not in poupancas:
+        print("Conta poupança não encontrada para este CPF.")
+        return
+
+    # Solicita o valor a ser transferido
+    try:
+        valor = float(input("Digite o valor a ser transferido: R$ "))
+        if valor <= 0:
+            print("Valor inválido. Insira um valor positivo.")
+            return
+    except ValueError:
+        print("Entrada inválida. Insira um número válido.")
+        return
+
+    # Verifica saldo suficiente na conta corrente
+    if cliente["saldo"] < valor:
+        print("Saldo insuficiente na conta corrente para realizar a transferência.")
+        return
+
+    # Realiza a transferência
+    cliente["saldo"] -= valor
+    poupancas[cpf]["saldo"] += valor
+
+    # Atualiza o histórico de transações
+    historico_transacoes[cpf].append(f"Transferência de R${valor:.2f} da conta corrente para a poupança realizada com sucesso.")
+
+    print(f"Transferência de R${valor:.2f} realizada com sucesso!")
+    print(f"Novo saldo na conta corrente: R$ {cliente_corrente['saldo']:.2f}")
+    print(f"Novo saldo na poupança: R$ {poupancas[cpf]['saldo']:.2f}\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################################################
+
+
    
 # Função para exibir o histórico de transações de um cliente
 def exibir_historico():
@@ -319,14 +491,15 @@ def menu_interativo():
     while True:
         print("Menu:")
         print("1. Criar conta corrente")
-        print("2. Realizar transferência")
+        print("2. Realizar transferência com a conta corrente")
         print("3. Exibir histórico de transações")
         print("4. Adicionar dinheiro à conta")
         print("5. Criar conta poupança")
         print("6. Adicionar dinheiro à poupança")
         print("7. Retirar dinheiro da poupança")
-        print("8. Sair")
-
+        print("8. Transferir da poupança para a conta corrente")
+        print("9. Transferir da conta corrente para a poupança")
+        print("10. exibirpoupanca")
         opcao = int(input("Escolha uma opção: "))
 
         if opcao == 1:
@@ -351,6 +524,18 @@ def menu_interativo():
             sacar_poupanca()
 
         elif opcao == 8:
+            transferir_poupanca_para_corrente()
+
+        elif opcao == 9:
+            transferir_corrente_para_poupanca()
+
+
+
+
+        elif opcao == 10:
+            exibir_conta_poupanca()
+            
+        elif opcao == 11:
             print("Encerrando o programa.")
             break
         else:
